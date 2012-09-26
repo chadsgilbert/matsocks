@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project name="matsocks" default="jar" basedir=".">
+	<description>
+		A Java interface for executing commands in a remote MATLAB process.
+	</description>
+	
+	<!-- Global properties for the build. -->
+	<property name="src.dir" location="src" />
+	<property name="bld.dir" location="bld" />
+	<property name="doc.dir" location="doc" />
+	
+	<!-- INIT -->
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${bld.dir}" />
+		<mkdir dir="${doc.dir}" />
+	</target>
+	
+	<!-- COMPILE -->
+	<target name="compile" depends="init" description="compiles the source">
+		<javac srcdir="${src.dir}" destdir="${bld.dir}" classpath="oracle.jar" includeantruntime="false" >
+			<compilerarg value="-Xlint"/> 
+		</javac>
+	</target>
+
+	<!-- JAR -->
+	<target name="jar" depends="compile" description="put it in a jar">
+		<jar jarfile="${ant.project.name}.jar" basedir="${bld.dir}">
+			<manifest>
+				<attribute name="Library-Name" value="${ant.project.name}" />
+				<attribute name="Specification-Title" value="A sockets-based Java-MATLAB interface" />
+				<attribute name="Specification-Version" value="0.1" />
+				<attribute name="Specification-Vendor" value="Chad S Gilbert" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="build1" />
+				<attribute name="Implementation-Vendor" value="Chad S Gilbert" />
+				<attribute name="Main-Class" value="ca.csg.matsocks.MSocketClient" />
+			</manifest>
+		</jar>
+	</target>
+	
+	<!-- DOC -->
+	<target name="doc" description="generate documentation">
+		<delete dir="${doc.dir}" />
+		<mkdir dir="${doc.dir}" />
+		<javadoc sourcepath="${src.dir}" destdir="${doc.dir}" author="true" />
+	</target>
+	
+	<!-- CLEAN -->
+	<target name="clean" description="clean the directory">
+		<delete dir="${bld.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete file="${ant.project.name}.jar" />
+	</target>
+</project>
